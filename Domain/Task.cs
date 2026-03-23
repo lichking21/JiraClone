@@ -1,10 +1,4 @@
-namespace Domain;
-
-public enum TaskStatus
-{
-    Done,
-    ToDo
-}
+namespace Domain.Task;
 
 public class Task
 {
