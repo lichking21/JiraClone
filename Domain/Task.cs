@@ -1,6 +1,6 @@
 namespace Domain;
 
-enum TaskStatus
+public enum TaskStatus
 {
     Done,
     ToDo
@@ -10,7 +10,7 @@ public class Task
 {
     public int ID {get; private set;}
     public string Title {get; private set;}
-    public string Status {get; private set;}
+    public TaskStatus Status {get; private set;} = TaskStatus.ToDo;
 
     public Task (int id, string title)
     {
@@ -19,7 +19,6 @@ public class Task
 
         ID = id;
         Title = title;
-        Status = TaskStatus.ToDo;
     }
 
     public void Rename(string newTitle)
@@ -30,15 +29,12 @@ public class Task
         Title = newTitle;
     }
 
-    public void SetStatus(string status)
+    public void SetStatus(TaskStatus status)
     {
-        if (string.IsNullOrWhiteSpace(status))
-            throw new ArgumentException("Status can't be null or empty");
-
         if (status == TaskStatus.Done) 
-            Status = TaskStatus.Done;
+            Status = status;
 
         if (status == TaskStatus.ToDo)
-            Status = TaskStatus.ToDo;
+            Status = status;
     }
 }
