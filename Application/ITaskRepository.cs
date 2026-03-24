@@ -6,5 +6,5 @@ public interface ITaskRepository
      void Add(Domain.Task task);
      void Remove(int id);
      void Update(Domain.Task task);
-     List<Task> GetUserTasks(int userId);
+     List<Domain.Task> GetUserTasks(int userId);
 }
