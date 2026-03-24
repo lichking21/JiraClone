@@ -1,17 +1,18 @@
 using Application;
+using Domain;
 
 namespace Infrastructure;
 
 public class TaskRepository : ITaskRepository
 {
-    private Dictionary<int, Domain.Task> _tasks = new Dictionary<int, Domain.Task>();
+    private Dictionary<int, UserTask> _tasks = new Dictionary<int, UserTask>();
 
-    public void Add(Domain.Task task)
+    public void Add(UserTask task)
     {
         _tasks.Add(task.ID, task);
     }
 
-    public Domain.Task Get(int id)
+    public UserTask Get(int id)
     {
         return _tasks[id];
     }
@@ -21,7 +22,7 @@ public class TaskRepository : ITaskRepository
         _tasks.Remove(id);
     }
 
-    public void Update(Domain.Task task)
+    public void Update(UserTask task)
     {
         if (!_tasks.ContainsKey(task.ID))
             throw new Exception($"(ERR) >> task with ID {task.ID} not found");
@@ -29,7 +30,7 @@ public class TaskRepository : ITaskRepository
         _tasks[task.ID] = task;
     }
 
-    public List<Domain.Task> GetUserTasks(int userId)
+    public List<UserTask> GetUserTasks(int userId)
     {
         return _tasks.Values.Where(t => t.UserId == userId).ToList();
     }

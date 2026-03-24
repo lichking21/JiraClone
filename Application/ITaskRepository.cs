@@ -1,10 +1,12 @@
+using Domain;
+
 namespace Application;
 
 public interface ITaskRepository
 {
-     Domain.Task Get(int id);
-     void Add(Domain.Task task);
+     UserTask Get(int id);
+     void Add(UserTask task);
      void Remove(int id);
-     void Update(Domain.Task task);
-     List<Domain.Task> GetUserTasks(int userId);
+     void Update(UserTask task);
+     List<UserTask> GetUserTasks(int userId);
 }
