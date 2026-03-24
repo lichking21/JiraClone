@@ -1,4 +1,4 @@
-namespace Domain.Task;
+namespace Domain;
 
 public class Task
 {
