@@ -24,8 +24,13 @@ public class TaskRepository : ITaskRepository
     public void Update(Domain.Task task)
     {
         if (!_tasks.ContainsKey(task.ID))
-            throw new Exception($"Task {task.Title} not found");
+            throw new Exception($"(ERR) >> task with ID {task.ID} not found");
 
         _tasks[task.ID] = task;
+    }
+
+    public List<Domain.Task> GetUserTasks(int userId)
+    {
+        return _tasks.Values.Where(t => t.UserId == userId).ToList();
     }
 }
