@@ -1,20 +1,45 @@
 namespace Application;
 
-public class UseCases
+public class CompleteTaskUseCase
 {
-    private readonly ITaskRepository _repository;
+    private readonly ITaskRepository _taskRepo;
 
-    public UseCases(ITaskRepository repository)
+    public CompleteTaskUseCase(ITaskRepository taskRepo)
     {
-        _repository = repository;
+        _taskRepo = taskRepo;
     }
 
-    public void CompleteTask(int id)
+    public void Execute(int id)
     {
-        var task = _repository.Get(id);
+        var task = _taskRepo.Get(id);
+        if (task == null)
+            throw new KeyNotFoundException($"(ERR) >> task with ID [{id}] not found"); 
 
         task.SetStatus(Domain.TaskStatus.Done);
 
-        _repository.Update(task);
-    }   
+        _taskRepo.Update(task);
+    } 
+}
+
+public class AssignTaskToUserUseCase
+{
+    private readonly IUserRepository _userRepo;
+    private readonly ITaskRepository _taskRepo;
+
+    public AssignTaskToUserUseCase(IUserRepository userRepo, ITaskRepository taskRepo)
+    {
+        _userRepo = userRepo;
+        _taskRepo = taskRepo;
+    }
+
+    
+    public void Execute(int userId, int taskId)
+    {
+        if (_userRepo.Get(userId) == null)
+            throw new KeyNotFoundException($"(ERR) >> user with ID[{userId}] not found");
+
+        var task = _taskRepo.Get(taskId);
+        task.AssignTo(userId);
+        _taskRepo.Update(task);
+    }
 }
