@@ -3,9 +3,11 @@ namespace Domain;
 public class UserTask
 {
     public int ID {get; private set;}
-    public string Title {get; private set;}
+    public string? Title {get; private set;}
     public TaskStatus Status {get; private set;} = TaskStatus.ToDo;
     public int UserId {get; private set;}
+
+    private UserTask() {}
 
     public UserTask (int id, string title)
     {
