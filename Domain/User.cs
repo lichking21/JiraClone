@@ -3,7 +3,9 @@
 public class User
 {
     public int ID { get; private set;}
-    public string Name { get; private set;}
+    public string? Name { get; private set;}
+
+    private User() {}
 
     public User(int id, string name)
     {
