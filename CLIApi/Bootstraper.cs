@@ -4,6 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Infrastructure.DbManager;
 using Microsoft.EntityFrameworkCore;
 using Domain;
+using Application;
+using Infrastructure;
 
 namespace CLI;
 
@@ -29,7 +31,7 @@ public static class Bootstraper
             options => options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"))
         );
 
-        services.AddScoped<User>();
-        services.AddScoped<UserTask>();
+        services.AddScoped<ITaskRepository, TaskRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
     }
 }
