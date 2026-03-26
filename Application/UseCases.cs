@@ -36,9 +36,12 @@ public class AssignTaskToUserUseCase
     public void Execute(int userId, int taskId)
     {
         if (_userRepo.Get(userId) == null)
-            throw new KeyNotFoundException($"(ERR) >> user with ID[{userId}] not found");
+            throw new KeyNotFoundException($"(ERR) >> user with ID [{userId}] not found");
 
         var task = _taskRepo.Get(taskId);
+        if (task == null)
+            throw new KeyNotFoundException($"(ERR) >> task with ID [{taskId}] not found");
+
         task.AssignTo(userId);
         _taskRepo.Update(task);
     }
