@@ -1,37 +1,54 @@
 using Application;
 using Domain;
+using Infrastructure.DbManager;
+using Microsoft.Extensions.Logging;
 
 namespace Infrastructure;
 
 public class TaskRepository : ITaskRepository
 {
-    private Dictionary<int, UserTask> _tasks = new Dictionary<int, UserTask>();
+    private readonly ApplicationDbContext _context;
+    private readonly ILogger<TaskRepository> _log;
+
+    public TaskRepository(ApplicationDbContext context, ILogger<TaskRepository> log)
+    {
+        _context = context;
+        _log = log;
+    }
 
     public void Add(UserTask task)
     {
-        _tasks.Add(task.ID, task);
+        _context.Tasks.Add(task);
+        _context.SaveChanges();
+
+        _log.LogDebug($"(LOG) >> task [{task.ID}] added to DataBase");
     }
 
-    public UserTask Get(int id)
+    public UserTask? Get(long id)
     {
-        return _tasks[id];
+        return _context.Tasks.Find(id);
     }
 
-    public void Remove(int id)
+    public void Remove(long id)
     {
-        _tasks.Remove(id);
+        var task = Get(id);
+
+        if (task != null)
+        {
+            _context.Tasks.Remove(task);
+            _context.SaveChanges();
+            _log.LogDebug($"(LOG) >> task [{task.ID}] was removed from DataBase");
+        } 
     }
 
-    public void Update(UserTask task)
+    public void Update(UserTask newTask)
     {
-        if (!_tasks.ContainsKey(task.ID))
-            throw new Exception($"(ERR) >> task with ID {task.ID} not found");
-
-        _tasks[task.ID] = task;
+        _context.Tasks.Update(newTask);
+        _context.SaveChanges();
     }
 
-    public List<UserTask> GetUserTasks(int userId)
+    public List<UserTask> GetUserTasks(long userId)
     {
-        return _tasks.Values.Where(t => t.UserId == userId).ToList();
+        return _context.Tasks.Where(t => t.UserId == userId).ToList();
     }
 }
