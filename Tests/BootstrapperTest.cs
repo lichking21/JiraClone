@@ -9,10 +9,10 @@ namespace Tests;
 public class BootstrapperTest
 {
     [Fact]
-    public void Execute_Bootstrapper_Successfully()
+    public void ConfigureServices_ResolvesDbContext()
     {
         var settings = new Dictionary<string, string?> {
-            {"ConnectionString:DefaultConnection", "Host:localhost;Database:jiraclone"}  
+            {"ConnectionStrings:DefaultConnection", "Host=localhost;Database=jiraclone"}  
         };
 
         IConfiguration configuration = new ConfigurationBuilder()
@@ -25,9 +25,8 @@ public class BootstrapperTest
         var serviceProvider = services.BuildServiceProvider();
 
         using var scope = serviceProvider.CreateScope();
-        var provider = scope.ServiceProvider;
 
-        var dbContext = provider.GetRequiredService<ApplicationDbContext>();
+        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     
         Assert.NotNull(dbContext);
     }
