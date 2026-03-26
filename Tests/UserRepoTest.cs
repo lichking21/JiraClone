@@ -10,27 +10,64 @@ public class UserRepoTest
 {
 
     [Fact]
-    public void Execute_UserCRUD_Successfully()
+    public void Add_NewUser_AddsToDb()
     {
+        // Arrange
         var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()) 
             .Options;
 
-        using var context = new ApplicationDbContext(options);
-
+        var user = new User(52, "Eblusha");
         var log = NullLogger<UserRepository>.Instance;
-        var repo = new UserRepository(context, log);
 
-        var mockUser = new User(52, "Petushara");
+        // Act
+        using (var context = new ApplicationDbContext(options))
+        {
+            var repo = new UserRepository(context, log);
+            repo.Add(user);
+        }
 
-        repo.Add(mockUser);
-        var getUser = repo.Get(mockUser.ID);
-        
-        Assert.NotNull(getUser);
-        Assert.Equal(mockUser.ID, getUser.ID);
+        // Assert
+        using (var context = new ApplicationDbContext(options))
+        {
+            var repo = new UserRepository(context, log);
+            var getUser = repo.Get(user.ID);
 
-        repo.Remove(mockUser.ID);
-        var removedUser = repo.Get(mockUser.ID);
-        Assert.Null(removedUser);
+            Assert.NotNull(getUser);
+        }
+    }
+
+    [Fact]
+    public void Remove_ExistingUser_DeletesFromDb()
+    {
+        // Arrange
+        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()) 
+            .Options;
+
+        var user = new User(1703, "Opustit' petucha");
+        var log = NullLogger<UserRepository>.Instance;
+
+        using (var context = new ApplicationDbContext(options))
+        {
+            var repo = new UserRepository(context, log);
+            repo.Add(user); 
+        }        
+
+        // Act
+        using (var context = new ApplicationDbContext(options))
+        {
+            var repo = new UserRepository(context, log);
+            repo.Remove(user.ID);
+        }
+
+        // Assert
+        using (var context = new ApplicationDbContext(options))
+        {
+            var repo = new UserRepository(context, log);
+            var deletedUser = repo.Get(user.ID);
+
+            Assert.Null(deletedUser); 
+        }
     }
 }
