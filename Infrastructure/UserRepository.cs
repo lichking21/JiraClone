@@ -39,13 +39,13 @@ public class UserRepository : IUserRepository
             _log.LogError($"(WARN) >> user [{user.ID}] already exists in DataBase");
     }
 
-    public User? Get(int id)
+    public User? Get(long id)
     {
         return _context.Users
             .Find(id);
     }
 
-    public void Remove(int id)
+    public void Remove(long id)
     {
         var user = Get(id);
 
