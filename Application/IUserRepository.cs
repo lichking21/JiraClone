@@ -4,7 +4,7 @@ namespace Application;
 
 public interface IUserRepository
 {
-    User? Get(int id);
+    User? Get(long id);
     void Add(User user);
-    void Remove(int id);
+    void Remove(long id);
 }

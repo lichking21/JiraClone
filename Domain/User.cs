@@ -2,12 +2,12 @@
 
 public class User
 {
-    public int ID { get; private set;}
+    public long ID { get; private set;}
     public string? Name { get; private set;}
 
     private User() {}
 
-    public User(int id, string name)
+    public User(long id, string name)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentException("User name can't be empty");

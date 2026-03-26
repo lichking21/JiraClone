@@ -2,14 +2,14 @@ namespace Domain;
 
 public class UserTask
 {
-    public int ID {get; private set;}
+    public long ID {get; private set;}
     public string? Title {get; private set;}
     public TaskStatus Status {get; private set;} = TaskStatus.ToDo;
-    public int UserId {get; private set;}
+    public long UserId {get; private set;}
 
     private UserTask() {}
 
-    public UserTask (int id, string title)
+    public UserTask (long id, string title)
     {
         if (string.IsNullOrWhiteSpace(title))
             throw new ArgumentException("Task title can't be null or empty");
@@ -35,7 +35,7 @@ public class UserTask
             Status = status;
     }
 
-    public void AssignTo(int userId)
+    public void AssignTo(long userId)
     {
         UserId = userId;
     }

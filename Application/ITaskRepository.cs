@@ -4,9 +4,9 @@ namespace Application;
 
 public interface ITaskRepository
 {
-     UserTask? Get(int id);
+     UserTask? Get(long id);
      void Add(UserTask task);
-     void Remove(int id);
+     void Remove(long id);
      void Update(UserTask task);
-     List<UserTask> GetUserTasks(int userId);
+     List<UserTask> GetUserTasks(long userId);
 }

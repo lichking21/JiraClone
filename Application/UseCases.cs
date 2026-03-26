@@ -9,7 +9,7 @@ public class CompleteTaskUseCase
         _taskRepo = taskRepo;
     }
 
-    public void Execute(int id)
+    public void Execute(long id)
     {
         var task = _taskRepo.Get(id);
         if (task == null)
@@ -33,7 +33,7 @@ public class AssignTaskToUserUseCase
     }
 
     
-    public void Execute(int userId, int taskId)
+    public void Execute(long userId, long taskId)
     {
         if (_userRepo.Get(userId) == null)
             throw new KeyNotFoundException($"(ERR) >> user with ID [{userId}] not found");
