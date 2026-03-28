@@ -32,7 +32,8 @@ public class ApplicationDbContext : DbContext
             .HasColumnName("title");
         modelBuilder.Entity<UserTask>()
             .Property(t => t.Status)
-            .HasColumnName("status");
+            .HasColumnName("status")
+            .HasConversion<string>();
         modelBuilder.Entity<UserTask>()
             .Property(t => t.UserId)
             .HasColumnName("user_id");
