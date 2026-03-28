@@ -5,7 +5,7 @@ public class UserTask
     public long ID {get; private set;}
     public string? Title {get; private set;}
     public TaskStatus Status {get; private set;} = TaskStatus.ToDo;
-    public long UserId {get; private set;}
+    public long? UserId {get; private set;}
 
     private UserTask() {}
 
