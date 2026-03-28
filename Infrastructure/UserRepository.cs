@@ -15,28 +15,12 @@ public class UserRepository : IUserRepository
         _log = log;
     }
 
-    public bool IsUserExists(long id)
-    {
-        if (id == 0)
-        {
-            _log.LogError("(ERR) >> user ID can't be 0");
-            return false;
-        }
-
-        return _context.Users.Any(u => u.ID == id);
-    }
-
     public void Add(User user)
     {
-        if (!IsUserExists(user.ID))
-        {
-            _context.Users.Add(user);
-            _context.SaveChanges();
+        _context.Users.Add(user);
+        _context.SaveChanges();
 
-            _log.LogDebug($"(LOG) >> user [{user.ID}] was added to DataBase");
-        }
-        else
-            _log.LogError($"(WARN) >> user [{user.ID}] already exists in DataBase");
+        _log.LogDebug($"(LOG) >> user [{user.ID}] was added to DataBase");
     }
 
     public User? Get(long id)
