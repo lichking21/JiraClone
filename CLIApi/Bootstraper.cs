@@ -3,7 +3,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Infrastructure.DbManager;
 using Microsoft.EntityFrameworkCore;
-using Domain;
 using Application;
 using Infrastructure;
 
@@ -28,10 +27,16 @@ public static class Bootstraper
     public static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<ApplicationDbContext>(
-            options => options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"))
+            options => options
+                .UseNpgsql(configuration.GetConnectionString("DefaultConnection"))
         );
 
         services.AddScoped<ITaskRepository, TaskRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
+        
+        services.AddSingleton<CLIRouter>();
+        
+        services.AddScoped<AssignTaskToUserUseCase>();
+        services.AddScoped<CompleteTaskUseCase>();
     }
 }
