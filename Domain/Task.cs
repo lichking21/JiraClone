@@ -9,12 +9,11 @@ public class UserTask
 
     private UserTask() {}
 
-    public UserTask (long id, string title)
+    public UserTask(string title)
     {
         if (string.IsNullOrWhiteSpace(title))
-            throw new ArgumentException("Task title can't be null or empty");
+            throw new ArgumentException("Title can't be empty");
 
-        ID = id;
         Title = title;
     }
 

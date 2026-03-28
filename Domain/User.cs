@@ -7,12 +7,11 @@ public class User
 
     private User() {}
 
-    public User(long id, string name)
+    public User(string name)
     {
         if (string.IsNullOrWhiteSpace(name))
-            throw new ArgumentException("User name can't be empty");
-
-        ID = id;
+            throw new ArgumentException("Name can't be empty");
+            
         Name = name;
     }
 }
